@@ -87,6 +87,8 @@ export function Advanced({
             onSelectionChange={(k) =>
               onDraftChange({ ...draft, kind: k ? (String(k) as ProviderKind) : null })
             }
+            // Holds the provider, as the model pickers hold a model: a tap opens the whole list.
+            showsChoice
             description={
               kind && kind !== 'openai_compatible' ? (
                 <Trans>Kept fills in {kindName(kind)}'s address.</Trans>
