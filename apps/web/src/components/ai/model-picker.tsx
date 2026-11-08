@@ -147,6 +147,9 @@ export function ModelPickers({
                 items={items}
                 selectedKey={chosen}
                 onSelectionChange={(k) => onChange({ ...value, [slot]: k ? String(k) : undefined })}
+                // Holds a model, so a tap opens the whole list, and the keyboard's scroll on a
+                // phone doesn't close it as it opens.
+                showsChoice
                 emptyText={empty}
                 description={
                   unknownVision ? (
