@@ -43,6 +43,18 @@ describe('Combobox', () => {
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 
+  // React Aria scrolls the chosen option into view inside the list. When only the popover around
+  // it scrolled, React Aria scrolled the page instead, and a page scroll closes the popover: a long
+  // list (a provider's models) opened and shut twice before it stayed open.
+  it('scrolls the list, not the popover around it', async () => {
+    const { user } = await renderUI(<Combobox label="Currency" items={currencies} />);
+    await user.tab();
+    await user.keyboard('{ArrowDown}');
+    const listbox = screen.getByRole('listbox');
+    expect(listbox).toHaveClass('overflow-y-auto');
+    expect(listbox.parentElement).toHaveClass('overflow-hidden');
+  });
+
   it('renders RTL with the translated empty state', async () => {
     const { user } = await renderUI(<Combobox label="العملة" items={currencies} />, {
       locale: 'ar',

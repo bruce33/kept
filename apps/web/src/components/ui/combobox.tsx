@@ -180,13 +180,16 @@ export function Combobox<T extends ComboboxOption, M extends SelectionMode = 'si
       ) : null}
       {description ? <Description>{description}</Description> : null}
       <FieldError>{errorMessage}</FieldError>
+      {/* The list scrolls, not the popover: React Aria scrolls the chosen option into view in
+          the list, and if the list can't scroll it scrolls the page instead, which closes the
+          popover. A long list then opened and shut twice before staying open. */}
       <Popover
         data-slot="combobox-popover"
         offset={6}
-        className="z-50 max-h-72 w-(--trigger-width) min-w-48 overflow-y-auto rounded-[10px] border border-line bg-surface text-ink shadow-[0_10px_30px_rgba(0,0,0,.14)] outline-none"
+        className="z-50 flex max-h-72 w-(--trigger-width) min-w-48 flex-col overflow-hidden rounded-[10px] border border-line bg-surface text-ink shadow-[0_10px_30px_rgba(0,0,0,.14)] outline-none"
       >
         <ListBox<T>
-          className="grid gap-px p-1 outline-none"
+          className="grid min-h-0 gap-px overflow-y-auto p-1 outline-none"
           renderEmptyState={() => (
             <div className="px-3 py-2.5 text-small text-ink-3">{emptyText ?? t`No matches`}</div>
           )}
